@@ -9,7 +9,7 @@ terraform {
     bucket = "devops91-terraform"
     key    = "expense-dev-vpc"
     region = "us-east-1"
-    dynamodb_table = "daws78s-locking"
+    dynamodb_table = "devops91-terraform-locking"
   }
 }
 
