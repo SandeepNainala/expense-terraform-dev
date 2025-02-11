@@ -37,3 +37,13 @@ resource "aws_security_group_rule" "db_backend" {
   security_group_id = module.db.sg_id
   type              = "ingress"
 }
+
+#Backend is accepting connections from the frontend rules
+resource "aws_security_group_rule" "backend_frontend" {
+  from_port         = 8080
+  to_port           = 8080
+  protocol          = "tcp"
+  source_security_group_id = module.frontend   #module.frontend.sg_id is the id of the security group created by the frontend module
+  security_group_id = module.backend.sg_id
+  type              = "ingress"
+}
