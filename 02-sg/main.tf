@@ -43,7 +43,17 @@ resource "aws_security_group_rule" "backend_frontend" {
   from_port         = 8080
   to_port           = 8080
   protocol          = "tcp"
-  source_security_group_id = module.frontend   #module.frontend.sg_id is the id of the security group created by the frontend module
+  source_security_group_id = module.frontend.sg_id   #module.frontend.sg_id is the id of the security group created by the frontend module
   security_group_id = module.backend.sg_id
+  type              = "ingress"
+}
+
+#Frontend is accepting connections from the internet
+resource "aws_security_group_rule" "frontend_public" {
+  from_port         = 80
+  to_port           = 80
+  protocol          = "tcp"
+  cidr_blocks       = ["0.0.0.0/0"]
+  security_group_id = module.frontend.sg_id
   type              = "ingress"
 }
