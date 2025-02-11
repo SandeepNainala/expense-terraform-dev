@@ -28,12 +28,42 @@ module "frontend" {
   sg_name = "frontend"
 }
 
+module "bastion" {
+  source = "../../terraform-aws-securitygroup/"
+  project_name = var.project_name
+  environment = var.environment
+  sg_description = "Security group for the bastion instances"
+  vpc_id = data.aws_ssm_parameter.vpc_id.value
+  common_tags = var.common_tags
+  sg_name = "bastion"
+}
+
+module "ansible" {
+  source = "../../terraform-aws-securitygroup/"
+  project_name = var.project_name
+  environment = var.environment
+  sg_description = "Security group for the ansible instances"
+  vpc_id = data.aws_ssm_parameter.vpc_id.value
+  common_tags = var.common_tags
+  sg_name = "ansible"
+}
+
 #DB is accepting connections from the backend rules
 resource "aws_security_group_rule" "db_backend" {
   from_port         = 3306
   to_port           = 3306
   protocol          = "tcp"
   source_security_group_id = module.backend.sg_id   #module.backend.sg_id is the id of the security group created by the backend module
+  security_group_id = module.db.sg_id
+  type              = "ingress"
+}
+
+#DB is accepting connections from the bastion rules
+resource "aws_security_group_rule" "db_bastion" {
+  from_port         = 3306
+  to_port           = 3306
+  protocol          = "tcp"
+  source_security_group_id = module.bastion.sg_id   #module.backend.sg_id is the id of the security group created by the backend module
   security_group_id = module.db.sg_id
   type              = "ingress"
 }
