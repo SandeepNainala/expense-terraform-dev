@@ -61,8 +61,4 @@ module "db" {
       ]
     },
   ]
-  tags = {
-    Owner       = "user"
-    Environment = "dev"
-  }
 }
