@@ -7,7 +7,7 @@ variable "environment" {
 }
 
 variable "common_tags"{
-  default = {
+  deafult = {
     project = var.project_name
     environment = var.environment
     terraform = "true"
