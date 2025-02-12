@@ -78,6 +78,24 @@ resource "aws_security_group_rule" "backend_frontend" {
   type              = "ingress"
 }
 
+resource "aws_security_group_rule" "backend_bastion" {
+  from_port         = 22
+  to_port           = 22
+  protocol          = "tcp"
+  source_security_group_id = module.bastion.sg_id   #module.frontend.sg_id is the id of the security group created by the frontend module
+  security_group_id = module.backend.sg_id
+  type              = "ingress"
+}
+
+resource "aws_security_group_rule" "backend_ansible" {
+  from_port         = 22
+  to_port           = 22
+  protocol          = "tcp"
+  source_security_group_id = module.ansible.sg_id   #module.frontend.sg_id is the id of the security group created by the frontend module
+  security_group_id = module.backend.sg_id
+  type              = "ingress"
+}
+
 #Frontend is accepting connections from the internet
 resource "aws_security_group_rule" "frontend_public" {
   from_port         = 80
