@@ -48,6 +48,7 @@ module "ansible" {
       Name = "${var.environment}-${var.environment}-ansible"
     }
   )
+  depends_on = [module.backend, module.frontend]
 }
 
 
