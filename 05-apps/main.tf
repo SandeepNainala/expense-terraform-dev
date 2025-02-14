@@ -1,3 +1,4 @@
+/*
 module "backend" {
   source = "terraform-aws-modules/ec2-instance/aws"
 
@@ -14,6 +15,7 @@ module "backend" {
     }
   )
 }
+*/
 
 module "frontend" {
   source = "terraform-aws-modules/ec2-instance/aws"
